@@ -32,6 +32,7 @@ public class Agent {
     private static final float MIN_DISTANCE_CONSIDERED_ZERO_SQUARED = (float) Math.pow(2.0f, 2);
     private Facing facing;
     private TileNode nextNode, currentNode;
+    private float dx1,dx2,dy1,dy2,cross;
 
     public Color color;
     private boolean shouldMove;
@@ -108,10 +109,20 @@ public class Agent {
  
             @Override 
             public float estimate(TileNode n, TileNode n1) { 
-                throw new UnsupportedOperationException("Deveria ter retornado "
+               /* throw new UnsupportedOperationException("Deveria ter retornado "
                         + "um valor para a heurística no arquivo "
                         + "Agent.java:107, mas o professor resolveu explodir "
                         + "o programa e deixar você consertar ;)"); 
+                */
+               //return 0;
+              // return n.getPosition().dst(n1.getPosition())/LevelManager.tileHeight;
+              
+              dx1 = (position.coords.x-n1.getPosition().x)/LevelManager.tileHeight;
+              dy1 = (position.coords.y-n1.getPosition().y)/LevelManager.tileHeight;
+              dx2 = (n.getPosition().x-n1.getPosition().x)/LevelManager.tileHeight;
+              dy2 = (n.getPosition().y-n1.getPosition().y)/LevelManager.tileHeight;
+              cross = Math.abs(dx1*dy2-dx2*dy1);
+              return cross*=0.1;
             } 
         }, path); 
         pathIterator = path.iterator();
